@@ -1074,7 +1074,10 @@ impl Default for Version {
 fn run(cmd: &mut Command, program: &str) {
     println!("running: {:?}", cmd);
     let status = match cmd.status() {
-        Ok(status) => status,
+        Ok(status) => {
+            eprintln!("{cmd:?} succeeded: {status}");
+            status
+        }
         Err(ref e) if e.kind() == ErrorKind::NotFound => {
             fail(&format!(
                 "failed to execute command: {}\nis `{}` not installed?",
